@@ -13,6 +13,7 @@
 		DE42331C2B1F3A50006032AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42331B2B1F3A50006032AB /* ContentView.swift */; };
 		DE42331E2B1F3A51006032AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE42331D2B1F3A51006032AB /* Assets.xcassets */; };
 		DE4233212B1F3A51006032AB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE4233202B1F3A51006032AB /* Preview Assets.xcassets */; };
+		DE7617202B5D595400C54D35 /* ExpenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76171F2B5D595400C54D35 /* ExpenceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		DE42331B2B1F3A50006032AB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DE42331D2B1F3A51006032AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE4233202B1F3A51006032AB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DE76171F2B5D595400C54D35 /* ExpenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			children = (
 				DE4233192B1F3A50006032AB /* iExpenseApp.swift */,
 				DE42331B2B1F3A50006032AB /* ContentView.swift */,
+				DE76171F2B5D595400C54D35 /* ExpenceView.swift */,
 				DE30EB4F2B4D65E100DD13B8 /* AddView.swift */,
 				DE30EB4D2B4D5E2E00DD13B8 /* Expence.swift */,
 				DE42331D2B1F3A51006032AB /* Assets.xcassets */,
@@ -147,6 +150,7 @@
 				DE42331C2B1F3A50006032AB /* ContentView.swift in Sources */,
 				DE42331A2B1F3A50006032AB /* iExpenseApp.swift in Sources */,
 				DE30EB4E2B4D5E2E00DD13B8 /* Expence.swift in Sources */,
+				DE7617202B5D595400C54D35 /* ExpenceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

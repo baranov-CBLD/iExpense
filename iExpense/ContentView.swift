@@ -5,109 +5,80 @@
 //  Created by Kirill Baranov on 05/12/23.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @State private var expenses = Expenses()
-    @State private var showingAddExpense = false
     
+    @Environment (\.modelContext) var modelContex
+    @Query var expenses: [ExpenseItem]
+    
+    @State private var filterValue = "All"
+    
+    @State private var showingAddExpense = false
+    @State private var sortOrder = [
+        SortDescriptor(\ExpenseItem.name),
+        SortDescriptor(\ExpenseItem.amount)
+    ]
     
     var body: some View {
         
         NavigationStack {
-            List {
-                
-                Section("Personal") {
-                
-                    ForEach(expenses.items.filter { $0.type ==  "Personal" }) { item in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(item.name)
-                                    .font(.headline)
-                                Text(item.type)
-                            }
-                            
-                            Spacer()
-                            if item.amount < 10 {
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                            } else if item.amount < 100 {
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                                    .bold()
-                            } else {
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                                    .bold()
-                                    .foregroundStyle(.red)
-                            }
-                            
-                        }
-                    }
-                    .onDelete(perform: removePersonalItems)
-                }
-                Section("Business") {
-                
-                    ForEach(expenses.items.filter { $0.type ==  "Business" }) { item in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(item.name)
-                                    .font(.headline)
-                                Text(item.type)
-                            }
-                            
-                            Spacer()
-                            if item.amount < 10 {
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                            } else if item.amount < 100 {
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                                    .bold()
-                            } else {
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                                    .bold()
-                                    .foregroundStyle(.red)
-                            }
-                            
-                        }
-                    }
-                    .onDelete(perform: removeBusinessItems)
-                }
+            VStack {
+                ExpenceView(filterValue: filterValue, sortOrder: sortOrder)
             }
             .navigationTitle("iExpense")
             .toolbar {
-
+                
+                Menu("Filter", systemImage: "line.3.horizontal.decrease.circle") {
+                    Picker("Type", selection: $filterValue) {
+                        Text("All Items")
+                            .tag("All")
+                        Text("Personal")
+                            .tag("Personal")
+                        Text("Business")
+                            .tag("Business")
+                    }
+                    
+                }
+                
+                Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                    Picker("Sort", selection: $sortOrder) {
+                        Text("Name")
+                            .tag([
+                                SortDescriptor(\ExpenseItem.name),
+                                SortDescriptor(\ExpenseItem.amount)
+                            ])
+                        Text("Value")
+                            .tag([
+                                SortDescriptor(\ExpenseItem.amount),
+                                SortDescriptor(\ExpenseItem.name)
+                            ])
+                    }
+                }
+                
                 NavigationLink {
-                    AddView(expenses: expenses)
+                    AddView()
                 } label: {
                     Image(systemName: "plus")
                 }
                 
-//                Button("Add Expense", systemImage: "plus") {
-//                    showingAddExpense = true
-//                }
             }
-//            .sheet(isPresented: $showingAddExpense) {
-//                AddView(expenses: expenses)
-//            }
+            
         }
     }
     
     
-    func removePersonalItems(at offsets: IndexSet) {
-        let personalItems = expenses.items.filter { $0.type ==  "Personal" }
-        for index in offsets {
-            let IDtoDelete = personalItems[index].id
-            expenses.items.removeAll(where: {$0.id == IDtoDelete})
-        }
-        
-    }
-    func removeBusinessItems(at offsets: IndexSet) {
-        let businessItems = expenses.items.filter { $0.type ==  "Business" }
-        for index in offsets {
-            let IDtoDelete = businessItems[index].id
-            expenses.items.removeAll(where: {$0.id == IDtoDelete})
-        }
-    }
+    
 }
 
 #Preview {
-    ContentView()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: ExpenseItem.self, configurations: config)
+        return ContentView()
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to create container: \(error.localizedDescription)")
+    }
 }
-
